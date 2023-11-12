@@ -1,11 +1,16 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /Chevez-IT/GestorSolicitudes/
+# Habilita el motor de reescritura
+RewriteEngine On
 
-    # Evitar el acceso directo a archivos y directorios
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
+# Establece la base para las reglas de reescritura
+RewriteBase /Chevez-IT/GestorSolicitudes/
 
-    # Redirigir todas las solicitudes a index.php
-    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
-</IfModule>
+# Condición: Evitar el acceso directo a archivos existentes
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Condición: Evitar el acceso directo a directorios existentes
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Regla de reescritura: redirige todas las solicitudes a index.php y pasa la URL como parámetro 'url'
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+
+

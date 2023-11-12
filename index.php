@@ -1,5 +1,7 @@
 <?php
-echo "HELLO WORD";
+include_once './core/Request.php';
+$request = new Request();
+echo $request -> getPublicUrl();
 
 
 
