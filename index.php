@@ -1,5 +1,4 @@
 <?php
-
 echo "HELLO WORD";
 
 
