@@ -40,6 +40,7 @@ class Request{
         return empty($request_url)?'/' :$request_url;
 
     }
+
     public static function getPublicUrl(){
         $path_origin = self::$script_filename;
         $request_uri = self::$request_uri;
@@ -49,6 +50,53 @@ class Request{
         return $public_path;
     }
 
-
+    
+   public function validate($routes,$url){
+    foreach ($routes as $route) {
+        $regex_route = preg_replace_callback(
+            '/{([^}]+)}/',
+            function ($matches) {
+                return "(?P<" . $matches[1] . ">[^/]+)";
+            },
+            $route['path']
+        );
+        $regex_route = str_replace("/", "\/", $regex_route);
+        $regex_route = '/^' . $regex_route . '$/';
+        if (preg_match($regex_route, $url,$matches)) {
+            //Coincidencia encontrada
+            foreach ($matches as $key => $value) {
+                $params[$key]=$value;
+            }
+            unset($params[0]);
+            if(is_callable($route['class'])){
+                $response = $route['class']($params);
+                if(is_array($response)){
+                    $response = json_encode($response);
+                    header('Content-Type: application/json');
+                    echo $response; 
+                    return false;
+                }else{
+                    return $response;
+                }
+            }   
+            if(is_string($route['class'])){
+                $route_class = $route['class'];
+                $array_class = explode('@', $route_class);
+                $controller = new $array_class[0]();
+                $method = $array_class[1];
+               
+                $response = $controller->$method(...array_values($params));
+                if(is_array($response)){
+                    $response = json_encode($response);
+                    header('Content-Type: application/json');
+                    echo $response; 
+                    return false;
+                }else{
+                    return $response;
+                }
+            }
+        }
+    }
+    return view("error.404");
+   }
 }
-
