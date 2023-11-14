@@ -5,11 +5,7 @@
         return view("index");
     });
 
-    //Admins routes
-
-
-
-
+  // vista al dashboard
 
     //Employes routes
 
@@ -21,3 +17,5 @@
     Route::post('/company/create', 'CompanyController@createCompany');
     Route::post('/company/update/status', 'CompanyController@updateCompanyStatus');
     
+    //Authenticate routes
+    Route::post('/user/auth', 'AuthenticateController@user_auth');
