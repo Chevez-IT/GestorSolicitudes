@@ -5,6 +5,17 @@
         return view("index");
     });
 
-// vista al dashboard
+  // vista al dashboard
 
-Route::post('/user/auth', 'AuthenticateController@user_auth');
+    //Employes routes
+
+
+
+
+    //Companies routes
+    Route::get('/companies', 'CompanyController@index');
+    Route::post('/company/create', 'CompanyController@createCompany');
+    Route::post('/company/update/status', 'CompanyController@updateCompanyStatus');
+    
+    //Authenticate routes
+    Route::post('/user/auth', 'AuthenticateController@user_auth');
