@@ -19,3 +19,9 @@
     
     //Authenticate routes
     Route::post('/user/auth', 'AuthenticateController@user_auth');
+
+    //Roles routes
+    Route::get('/roles','RoleController@index');
+    Route::post('/role/create','RoleController@createRole');
+    Route::post('/role/update/status','RoleController@updateRoleStatus');
+    Route::post('/role/update/permissions','RoleController@updateRolePermissions');
