@@ -67,8 +67,6 @@ class CompanyController
                 ];
                 return view(self::INDEX_VIEW, $data);
             }
-
-        
             do {
                 $initials = strtoupper(substr($company_name, 0, 2));
                 $numeroAleatorio = rand(100, 999);
@@ -86,6 +84,28 @@ class CompanyController
                 header("Location: " . url("/companies"), true, 303);
             }
             exit();
+        } else {
+            return view(self::ERROR_VIEW, ["pageTitle" => self::PAGE_TITLE]);
+        }
+    }
+
+    public function updateCompanyStatus()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $company_id = $this->tools->sanitize($_POST['company-id']);
+            $company_status = $this->tools->sanitize($_POST['company-status']);
+
+            $response = $this->companyModel->updateCompanyStatus($company_id, $company_status);
+
+            $response_data = json_decode($response, true);
+
+            if ($response_data['status'] == true) {
+                $_SESSION['success'] = "Estado de la compañía actualizado exitosamente";
+                header("Location: " . url("/companies"), true, 303);
+            } else {
+                // Manejar el error, posiblemente redirigir a una página de error
+                return view(self::ERROR_VIEW, ["pageTitle" => self::PAGE_TITLE]);
+            }
         } else {
             return view(self::ERROR_VIEW, ["pageTitle" => self::PAGE_TITLE]);
         }

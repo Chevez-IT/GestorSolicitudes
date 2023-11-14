@@ -19,4 +19,5 @@
     //Companies routes
     Route::get('/companies', 'CompanyController@index');
     Route::post('/company/create', 'CompanyController@createCompany');
+    Route::post('/company/update/status', 'CompanyController@updateCompanyStatus');
     

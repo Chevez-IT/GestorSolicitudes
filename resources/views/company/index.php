@@ -99,15 +99,19 @@
                                                             <p class="text-sm font-weight-normal mb-0"><?= $company['company_modification'] ?></p>
                                                         </td>
                                                     <?php endif; ?>
-                                                    <td class="align-middle">
+                                                    <td class="align-items-center justify-content-center text-center">
                                                         <?php if ($company['company_status'] === 'Activo') : ?>
-                                                            <a href="#" class="text-danger font-weight-bold text-md ms-2 me-2" data-bs-toggle="tooltip" data-bs-title="Habilitar">
-                                                                <i class="fa-solid fa-trash"></i>
-                                                            </a>
+                                                            <form method="POST" action="<?= url("/company/update/status") ?>">
+                                                                <input type="hidden" name="company-id" value="<?= $company['company_id'] ?>">
+                                                                <input type="hidden" name="company-status" value="Inactivo">
+                                                                <button type="submit" class="btn btn-success py-2 px-3" data-bs-toggle="tooltip" data-bs-title="Inhabilitar"><i class="fa-solid fa-trash"></i></button>
+                                                            </form>
                                                         <?php else : ?>
-                                                            <a href="#" class="text-success font-weight-bold text-md ms-2 me-2" data-bs-toggle="tooltip" data-bs-title="Inhabilitar">
-                                                                <i class="fa-solid fa-trash-arrow-up"></i>
-                                                            </a>
+                                                            <form method="POST" action="<?= url("/company/update/status") ?>">
+                                                                <input type="hidden" name="company-id" value="<?= $company['company_id'] ?>">
+                                                                <input type="hidden" name="company-status" value="Activo">
+                                                                <button type="submit" class="btn btn-danger py-2 px-3" data-bs-toggle="tooltip" data-bs-title="Habilitar"><i class="fa-solid fa-trash-arrow-up"></i></button>
+                                                            </form>
                                                         <?php endif; ?>
                                                     </td>
                                                 </tr>

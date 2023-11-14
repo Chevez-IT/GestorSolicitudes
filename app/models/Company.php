@@ -60,4 +60,19 @@ class Company
             return ['status' => false, 'message' => 'Empresa no encontrada'];
         }
     }
+
+    public function updateCompanyStatus($company_id, $company_status)
+    {
+        $stmt = $this->db->prepare("CALL UpdateCompanyStatus(:company_id, :company_status)");
+        $stmt->bindParam(':company_id', $company_id);
+        $stmt->bindParam(':company_status', $company_status);
+
+        $result = $stmt->execute();
+
+        if ($result) {
+            return json_encode(['status' => true, 'message' => 'Estado de la empresa actualizado exitosamente']);
+        } else {
+            return json_encode(['status' => false, 'message' => 'Error al actualizar el estado de la empresa']);
+        }
+    }
 }
