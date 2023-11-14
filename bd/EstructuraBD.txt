@@ -1,0 +1,72 @@
+Tabla: Permissions
+-permission_id ->Varchar(5):Primary Key
+-permission_name ->Varchar(50):Unique
+
+Table: Roles
+-role_id->Varchar(5):Primary Key
+-role_name->Varchar(25):Unique
+-role_status->Varchar(25)
+-role_creation->Timestamp:Current_Timestamp
+-role_modification->Timestamp:On update current_timestamp()
+
+Table: Roles-Permissions
+-role_id->Varchar(5):Foreing Key to Roles(role_id)[many to many relationship]
+-permission->Varchar(5):Foreing Key to Permissions(permission_id)[many to many relationship]
+
+Table: Accounts
+-account_id->Varchar(5):Primary Key
+-account_name->Varchar(50):Unique
+-account_email->Varchar(100):Unique
+-account_password->Text
+-role_id->Varchar(5):Foreing Key to Roles(role_id)[one to many relationship]
+-account_status->Varchar(25)
+-account_creation->Timestamp:Current_Timestamp
+-account_modification->Timestamp:On update current_timestamp()
+
+Table: Companies
+-company_id->Varchar(5):Primary Key
+-company_name->Varchar(100):Unique
+-company_status->Varchar(25)
+-company_creation->Timestamp:Current_Timestamp
+-company_modification->Timestamp:On update current_timestamp()
+
+Table: Users
+-user_id->Varchar(7):Primary Key
+-account_id->Varchar(5):Foreing Key to Accounts(account_id)[one to one relationship]
+-account_names->Varchar(100)
+-user_surnames->Varchar(100)
+-user_address->Text
+-user_phone->Varchar(25):Unique
+-company_id->Varchar(5):Foreing Key to Companies(company_id)[one to many relationship]
+-user_position->Varchar(50)
+-user_area->Varchar(50)
+-user_status->Varchar(25)
+-user_creation->Timestamp:Current_Timestamp
+-user_modification->Timestamp:On update current_timestamp()
+
+Table: Request
+-requests_id->Varchar(10):Primary Key
+-user_id_customer->Varchar(7): Foreing Key to User(user_id)[one to many relationship]
+-request_art->Varchar(100)
+-request_support->Varchar(100)
+-request_producction_date->Date:Nullable
+-request_production_time-> Time:Nullable
+-request_final_production_date-> Date
+-request_details->Text
+-request_purpose->Text
+-request_reference-> Varchar(100): Nullable
+-request_additional_comments-> Text: Nullable
+-request_assessment->Text:Nullable
+-user_id_employee->Varchar(7):Foreing Key to User(user_id)[one to many relationship], Nullable
+-request_status->Varchar(25)
+-request_creation->Timestamp:Current_Timestamp
+-request_modification->Timestamp:On update current_timestamp()
+
+Table: Menssages
+-menssage_id->Varchar(12):Primart Key
+-user_id->Varchar(7): Foreing Key to Users(user_id)[one to many relationship]
+-conversation_id->Varchar(10): Foreing Key to Users(user_id)[one to many relationship]
+-message_content->Text
+-message_status->Varchar(25)
+-message_creation->Timestamp:Current_Timestamp
+-message_modification->Timestamp:On update current_timestamp()
