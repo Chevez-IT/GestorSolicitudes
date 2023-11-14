@@ -21,11 +21,15 @@ class CompanyController
         $this->tools = new Tools();
     }
 
-    public function index(){
+    public function index()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            return view(self::INDEX_VIEW, ["pageTitle" => self::PAGE_TITLE]);
+            $companies = $this->companyModel->getCompanies();
+
+
+            return view(self::INDEX_VIEW, ["pageTitle" => self::PAGE_TITLE, "companies" => $companies]);
             exit();
-        }else{
+        } else {
             return view(self::ERROR_VIEW, ["pageTitle" => self::PAGE_TITLE]);
         }
     }
@@ -35,7 +39,7 @@ class CompanyController
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $company_name = $this->tools->sanitize($_POST['company-name']);
             $fieldsToValidate = [
-                'company-namel' => $company_name,
+                'company-name' => $company_name,
             ];
 
 
@@ -50,25 +54,38 @@ class CompanyController
                 $data['pageTitle'] = self::PAGE_TITLE;
                 return view(self::INDEX_VIEW, $data);
             }
-
-            $initials = strtoupper(substr($company_name, 0, 2));
-            $numeroAleatorio = rand(100, 999);
-            $company_id = $initials . $numeroAleatorio;
             $company_status = "Activo";
-            $response = $this->companyModel->createCompany($company_id, $company_name, $company_status ,1);
+
+            $existingCompany = $this->companyModel->selectCompanyByName($company_name);
+
+            if (isset($existingCompany['status']) && $existingCompany['status'] === true) {
+                $data = [
+                    'pageTitle' => self::PAGE_TITLE,
+                    'error' => [
+                        'company-name' => ['message' => 'La empresa ya existe.'],
+                    ],
+                ];
+                return view(self::INDEX_VIEW, $data);
+            }
+
+        
+            do {
+                $initials = strtoupper(substr($company_name, 0, 2));
+                $numeroAleatorio = rand(100, 999);
+                $company_id = $initials . $numeroAleatorio;
+                $existingId = $this->companyModel->selectCompanyByID($company_id);
+            } while ($existingId['status'] === true);
+
+            $response = $this->companyModel->createCompany($company_id, $company_name, $company_status, 1);
 
             $response_user = json_decode($response, true);
 
             if ($response_user['status'] == true) {
                 $_POST = array();
-                $_SESSION['success'] = "Compania agregada exitosamente";
-                
-                return view(self::INDEX_VIEW, ["pageTitle" => self::PAGE_TITLE]);
-                exit();
-            } else {
-                unset($_SESSION['success']);
-                return view(self::INDEX_VIEW, ["status" => $response_user['status'], "message" => $response_user['message'], "pageTitle" => self::PAGE_TITLE]);
+                $_SESSION['success'] = "Compañia agregada exitosamente";
+                header("Location: " . url("/companies"), true, 303);
             }
+            exit();
         } else {
             return view(self::ERROR_VIEW, ["pageTitle" => self::PAGE_TITLE]);
         }

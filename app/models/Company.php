@@ -28,5 +28,36 @@ class Company
         }
     }
 
-    
+    public function getCompanies()
+    {
+        $stmt = $this->db->prepare("CALL SelectAllCompanies()");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    public function selectCompanyByName($companyName)
+    {
+        $stmt = $this->db->prepare("CALL SelectCompanyByName(:companyName)");
+        $stmt->bindParam(':companyName', $companyName);
+        $result = $stmt->execute();
+
+        if ($result) {
+            return $stmt->fetch(\PDO::FETCH_ASSOC);
+        } else {
+            return ['status' => false, 'message' => 'Empresa no encontrada'];
+        }
+    }
+
+    public function selectCompanyByID($companyID)
+    {
+        $stmt = $this->db->prepare("CALL SelectCompanyByID(:companyID)");
+        $stmt->bindParam(':companyID', $companyID);
+        $result = $stmt->execute();
+
+        if ($result) {
+            return $stmt->fetch(\PDO::FETCH_ASSOC);
+        } else {
+            return ['status' => false, 'message' => 'Empresa no encontrada'];
+        }
+    }
 }
