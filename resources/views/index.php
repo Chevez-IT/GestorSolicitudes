@@ -1,118 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Form</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- You can also include your custom CSS file here -->
-</head>
-<body>
+<!-- head -->
+<?php include_once './resources/views/templates/head.php'; ?>
 
-<div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xxl-4 col-lg-5">
-                    <div class="card">
+<body class="g-sidenav-show  bg-gray-100">
 
-                        <!-- Logo -->
-                        <div class="card-header pt-4 pb-4 text-center bg-primary">
-                            <a href="index.html">
-                                <span>
-                                    <h1 class="text-white">Diego Chevez 🏀</h1>
-                                </span>
-                            </a>
-                        </div>
-
-                        <div class="card-body p-4">
-
-                            <div class="text-center w-75 m-auto">
-                                <h4 class="text-dark-50 text-center pb-0 fw-bold">Iniciar sesión</h4>
-                                <p class="text-muted mb-4">Ingrese su dirección de correo electrónico y contraseña para
-                                    acceder al panel de administración.
-                                </p>
-                            </div>
-
-                            <form method="POST" action="<?= url("/user/auth") ?>">
-
-                                <div class="mb-3">
-                                    <label for="emailaddress" class="form-label">Dirección de correo electrónico</label>
-                                  
-                                    <input class="form-control" type="email" id="emailaddress" name="email"
-                                        placeholder="Enter your email"
-                                        value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>">
-
-                                    <?php if (isset($error['email']['message'])) { ?>
-                                        <span class="error">
-                                            <?php echo $error['email']['message']; ?>
-                                        </span>
-                                    <?php } ?>
-
+    <main class="main-content mt-0 ps">
+        <section>
+            <div class="page-header min-vh-100">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-4 col-md-6 d-flex flex-column mx-auto">
+                            <div class="card card-plain mt-8">
+                                <div class="card-header pb-0 text-left bg-transparent">
+                                    <h2 class="font-weight-black text-dark display-6">Gestor de solicitudes</h2>
+                                    <br>
+                                    <p class="mb-0">¡Bienvenido de nuevo!, hay muchas cosas que hacer no tardes en acceder</p>
+                                    <br>
                                 </div>
-
-                                <div class="mb-3">
-                                    <a href="pages-recoverpw.html" class="text-muted float-end"><small>Ha olvidado su
-                                            ¿contraseña?</small></a>
-                                    <label for="password" class="form-label">Contraseña</label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="password" id="password" name="password" class="form-control"
-                                            placeholder="Enter your password"
-                                            value="<?php echo isset($password) ? htmlspecialchars($password) : ''; ?>">
-                                        <div class="input-group-text" data-password="false">
-                                            <span class="password-eye"></span>
+                                <div class="card-body">
+                                    <form role="form" method="POST" action="<?= url("/user/auth") ?>">
+                                        <label>Correo</label>
+                                        <div class="mb-3">
+                                            <input class="form-control" type="email" id="emailaddress" name="email" placeholder="Digite su correo:" aria-label="Name" aria-describedby="name-addon">
                                         </div>
-                                    </div>
-                                    <?php if (isset($error['password']['message'])) { ?>
-                                        <span class="error">
-                                            <?php echo $error['password']['message']; ?>
-                                        </span>
-                                    <?php } ?>
+                                        <label>Password</label>
+                                        <div class="mb-3">
+                                            <input type="password" class="form-control" id="password" name="password" placeholder="Digite su contraseña:" aria-label="Password" aria-describedby="password-addon">
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <a href="<?= url("/user/forgot/password") ?>" class="text-xs font-weight-bold ms-auto">Forgot password</a>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="button" class="btn btn-dark w-100 mt-4 mb-3">Acceder</button>
+                                        </div>
+                                    </form>
                                 </div>
-
-                                <?php if (isset($status) && $status === false): ?>
-                                    <div class="alert alert-danger">
-                                        <?php echo $message; ?>
-                                    </div>
-                                <?php endif; ?>
-
-                                <?php if (isset($status) && $status === true): ?>
-                                    <div class="alert alert-primary">
-                                        <?php echo $message; ?>
-                                    </div>
-                                <?php endif; ?>
-
-                                <div class="mb-3 mb-3">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="checkbox-signin" checked>
-                                        <label class="form-check-label" for="checkbox-signin">Acuérdate de mí</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-absolute w-40 top-0 end-0 h-100 d-md-block d-none">
+                                <div class="oblique-image position-absolute fixed-top ms-auto h-100 z-index-0 bg-cover ms-n8" style="background-image:url('<?= assets('img/ilustrations/img1.jpg'); ?>')">
+                                    <div class="blur mt-12 p-4 text-center border border-white border-radius-md position-absolute fixed-bottom m-4">
+                                        <h2 class="mt-3 text-dark font-weight-bold">El sistema que logra tus objetivos</h2>
+                                        <h6 class="text-dark text-sm mt-5">Copyright © 2022 Corporate UI Design System by Creative Tim.</h6>
                                     </div>
                                 </div>
-
-                                <div class="mb-3 mb-0 text-center">
-                                    <input class="btn btn-primary" type="submit" value="Iniciar sesión">
-                                </div>
-
-                            </form>
-                        </div> <!-- end card-body -->
+                            </div>
+                        </div>
                     </div>
-                    <!-- end card -->
-
-                    <div class="row mt-3">
-                        <div class="col-12 text-center">
-                            <p class="text-muted">Don't have an account? <a href="<?= url("/user/account") ?>"
-                                    class="text-muted ms-1"><b>Sign Up</b></a></p>
-                        </div> <!-- end col -->
-                    </div>
-                    <!-- end row -->
-
-                </div> <!-- end col -->
+                </div>
             </div>
-            <!-- end row -->
+        </section>
+        <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+            <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
         </div>
-        <!-- end container -->
+        <div class="ps__rail-y" style="top: 0px; right: 0px;">
+            <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+        </div>
+    </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Add your JavaScript code here for form validation and submission
-    </script>
+
+    <!-- scripts -->
+    <?php include_once './resources/views/templates/script.php'; ?>
 </body>
+
 </html>
