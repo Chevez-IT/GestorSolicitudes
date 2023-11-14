@@ -9,7 +9,7 @@ require_once "./core/Database.php";
 use Core\Route;
 
 include_once "./routes/web.php";
-require_once "./core/logic.php";
+require_once "./core/Logic.php";
 
 
 

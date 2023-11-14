@@ -5,10 +5,6 @@
         return view("index");
     });
 
-    //Admins routes
+// vista al dashboard
 
-
-
-
-
-    //Employes routes
+Route::post('/user/auth', 'AuthenticateController@user_auth');
