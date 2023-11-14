@@ -12,3 +12,11 @@
 
 
     //Employes routes
+
+
+
+
+    //Companies routes
+    Route::get('/companies', 'CompanyController@index');
+    Route::post('/company/create', 'CompanyController@createCompany');
+    

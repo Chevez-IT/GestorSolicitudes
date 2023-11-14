@@ -15,7 +15,7 @@ class Database
         $this->host = 'localhost';
         $this->username = 'root';
         $this->password = '';
-        $this->database = 'controlsolicitudes_bd';
+        $this->database = 'gestor_solicitudes_bd';
     }
 
     public function connect()
