@@ -2,7 +2,7 @@
 
 namespace Model;
 
-class User
+class Account
 {
     private $db;
 
@@ -11,17 +11,11 @@ class User
         $this->db = $db;
     }
 
-    public function getUsers()
+
+    public function getAccounts()
     {
-        $stmt = $this->db->prepare("CALL SelectAllUsers()");
+        $stmt = $this->db->prepare("CALL SelectAllAccounts()");
         $stmt->execute();
         return $stmt->fetchAll();
     }
-
-
-
 }
-
-
-
-

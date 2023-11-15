@@ -1,37 +1,34 @@
 <?php
 
 use Core\Database;
-use Model\User;
+use Model\Account;
 use Core\Tools;
-class UserController{
+
+class AccountController
+{
     private $tools;
-    private $userModel;
+    private $accountModel;
 
     const ERROR_VIEW = 'error.404';
-    const INDEX_VIEW = 'user.index';
+    const INDEX_VIEW = 'account.index';
     const PAGE_TITLE = "FGK - MKT & COM";
 
     public function __construct()
     {
         $db = new Database();
         $db->connect();
-        $this->userModel = new User($db->getConnection());
+        $this->accountModel = new Account($db->getConnection());
         $this->tools = new Tools();
     }
 
     public function index()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            $users = $this->userModel->getUsers();
-
-
-            return view(self::INDEX_VIEW, ["pageTitle" => self::PAGE_TITLE, "users" => $users]);
+            $accounts = $this->accountModel->getAccounts();
+            return view(self::INDEX_VIEW, ["pageTitle" => self::PAGE_TITLE, "accounts" => $accounts]);
             exit();
         } else {
             return view(self::ERROR_VIEW, ["pageTitle" => self::PAGE_TITLE]);
         }
     }
-
-    
-    
 }
