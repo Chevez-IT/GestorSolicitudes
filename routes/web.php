@@ -28,4 +28,10 @@
 
     //User - Account routes
     Route::get('/users', 'UserController@index');
+
+    
     Route::get('/accounts', 'AccountController@index');
+    Route::get('/accounts/create', 'AccountController@createAccount');
+    Route::post('/accounts/update/status', 'AccountController@updateAccountStatus');
+    Route::post('/accounts/update/account', 'AccountController@updateAccount');
+    

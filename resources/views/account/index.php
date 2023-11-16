@@ -111,20 +111,32 @@
                                                     <?php endif; ?>
                                                     <td class="align-middle text-center">
                                                         <div class="btn-group" role="group" aria-label="Basic example">
-                                                            <button type="button" class="btn btn-white text-primary btn-icon mb-0 mx-3 p-0 border-0 shadow-none">
+                                                            <!-- btn informacion completa -->
+                                                            <button type="submit" class="btn btn-white text-primary btn-icon mb-0 mx-3 p-0 border-0 shadow-none" data-bs-toggle="modal" data-bs-target="#detailAccountModal-<?= $account['account_id'] ?>">
                                                                 <i class="fa-solid fa-eye"></i>
                                                             </button>
-                                                            <button type="button" class="btn btn-white text-warning btn-icon mb-0 mx-3 p-0 border-0 shadow-none">
+                                                            <!-- btn editar informacion-->
+                                                            <button type="submit" class="btn btn-white text-warning btn-icon mb-0 mx-3 p-0 border-0 shadow-none" data-bs-toggle="modal" data-bs-target="#editAccountModal-<?= $account['account_id'] ?>">
                                                                 <i class="fa-solid fa-pen"></i>
                                                             </button>
                                                             <?php if ($account['account_status'] === 'Activo') : ?>
-                                                            <button type="button" class="btn btn-white text-danger btn-icon mb-0 mx-3 p-0 border-0 shadow-none">
-                                                                <i class="fa-solid fa-trash"></i>
-                                                            </button>
+                                                                <!-- btn editar stado a inactivo-->
+                                                                <form action="accounts/update/status" method="POST">
+                                                                    <input value="Inactivo" type="text" class="form-control" type="text" id="account-status" name="account-status" hidden>
+                                                                    <input value="<?= $account['account_id'] ?>" type="text" class="form-control" type="text" id="account-id" name="account-id" hidden>
+                                                                    <button type="submit" class="btn btn-white text-danger btn-icon mb-0 mx-3 p-0 border-0 shadow-none">
+                                                                        <i class="fa-solid fa-trash"></i>
+                                                                    </button>
+                                                                </form>
                                                             <?php else : ?>
-                                                                <button type="button" class="btn btn-white text-success btn-icon mb-0 mx-3 p-0 border-0 shadow-none">
-                                                                <i class="fa-solid fa-trash-can-arrow-up"></i>
-                                                                </button>
+                                                                <!-- btn editar estado a activo-->
+                                                                <form action="accounts/update/status" method="POST">
+                                                                    <input value="Activo" type="text" class="form-control" type="text" id="account-status" name="account-status" hidden>
+                                                                    <input value="<?= $account['account_id'] ?>" type="text" class="form-control" type="text" id="account-id" name="account-id" hidden>
+                                                                    <button type="submit" class="btn btn-white text-success btn-icon mb-0 mx-3 p-0 border-0 shadow-none">
+                                                                        <i class="fa-solid fa-trash-can-arrow-up"></i>
+                                                                    </button>
+                                                                </form>
                                                             <?php endif; ?>
                                                         </div>
                                                     </td>
@@ -162,32 +174,165 @@
     </main>
 
 
-
-
-    <div class="modal fade" id="createAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
+    <div class="modal fade" id="createAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <form method="POST" action="<?= url("/account/create") ?>">
+            <div class="modal-content">
+                <form method="POST" action="accounts/create">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="account-name" class="col-form-label">Nombres:</label>
+                            <input type="text" class="form-control" type="text" id="user_names" name="user_names" required>
+                            <label for="account-name" class="col-form-label">Apellidos:</label>
+                            <input type="text" class="form-control" type="text" id="user_surnames" name="user_surnames" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="account-name" class="col-form-label">Correo:</label>
+                            <input type="text" class="form-control" type="text" id="account_email" name="account_email" required>
+                            <label for="account-name" class="col-form-label">Telefono:</label>
+                            <input type="text" class="form-control" type="text" id="user_phone" name="user_phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">Direccion:</label>
+                            <textarea class="form-control" id="user_address" name="user_address"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Compañia</label>
+                                <select class="form-control" id="company_id" name="company_id" required>
+                                    <?php foreach ($companies as $company) : ?>
+                                        <option selected value="<?= $company['company_id'] ?>"><?= $company['company_name'] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <label for="account-name" class="col-form-label">Posicion:</label>
+                            <input type="text" class="form-control" type="text" id="user_position" name="user_position" required>
+                            <label for="account-name" class="col-form-label">Area:</label>
+                            <input type="text" class="form-control" type="text" id="user_area" name="user_area" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Rol:</label>
+                            <select class="form-control" id="role_id" name="role_id" required>
+                                <?php foreach ($roles as $role) : ?>
+                                    <option selected value="<?= $role['role_id'] ?>"><?= $role['role_name'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-dark">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <?php foreach ($accounts as $account) : ?>
+        <div class="modal fade" id="detailAccountModal-<?= $account['account_id'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Añadiendo una nueva empresa</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Cuenta: <?= $account['account_id'] ?></h5>
                         <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="account-name" class="col-form-label">Empresa</label>
-                            <input type="text" class="form-control" type="text" id="account-name" name="account-name" placeholder="Fundacion Gloria Kriete" require>
+                            <label for="account-name" class="col-form-label">Nombre asociado:</label>
+                            <input type="text" class="form-control" disabled type="text" id="account_name" name="account-name" value="<?= $account['account_name'] ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="account-name" class="col-form-label">Correo asociado:</label>
+                            <input type="text" class="form-control" disabled type="text" id="account_email" name="account_email" value="<?= $account['account_email'] ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="account-name" class="col-form-label">Rol asociado:</label>
+                            <input type="text" class="form-control" disabled type="text" id="role_name" name="role_name" value="<?= $account['role_name'] ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="account-name" class="col-form-label">Estado actual:</label>
+                            <input type="text" class="form-control" disabled type="text" id="account-status" name="account-status" value="<?= $account['account_status'] ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="account-name" class="col-form-label">Fecha de creacion:</label>
+                            <input type="text" class="form-control" disabled type="text" id="account-creation" name="account-creation" value="<?= $account['account_creation'] ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="account-name" class="col-form-label">Ultima modificacion:</label>
+                            <?php if (empty($account['account_modification'])) : ?>
+                                <input type="text" class="form-control" disabled type="text" id="account-creation" name="account-creation" value="No ha sido modificado">
+                            <?php else : ?>
+                                <input type="text" class="form-control" disabled type="text" id="account-creation" name="account-creation" value="<?= $account['account_modification'] ?>">
+                            <?php endif; ?>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-white" data-bs-dismiss="modal">Cancelar</button>
-                        <input class="btn btn-primary" type="submit" value="Crear">
+                        <button type="button" class="btn btn-white" data-bs-dismiss="modal">Volver</button>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
+
+    <?php endforeach; ?>
+
+    <?php foreach ($accounts as $account) : ?>
+        <div class="modal fade" id="editAccountModal-<?= $account['account_id'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <form action="<?= url("/accounts/update/account") ?>" method="POST">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Cuenta: <?= $account['account_id'] ?></h5>
+                            <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <input type="text" class="form-control" type="text" id="new-account-id" name="new-account-id" value="<?= $account['account_id'] ?>" hidden required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-account-name" class="col-form-label">Nombre asociado:</label>
+                                <input type="text" class="form-control" type="text" id="new-account-name" name="new-account-name" value="<?= $account['account_name'] ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-account-email" class="col-form-label">Correo asociado:</label>
+                                <input type="text" class="form-control" type="text" id="new-account-email" name="new-account-email" value="<?= $account['account_email'] ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-role_id">Rol asociado:</label>
+                                <select class="form-control" id="new-role-id" name="new-role-id" required>
+                                    <?php foreach ($roles as $role) : ?>
+                                        <?php if ($role['role_name'] === $account['role_name']) : ?>
+                                            <option selected value="<?= $role['role_id'] ?>"><?= $role['role_name'] ?></option>
+                                        <?php else : ?>
+                                            <option value="<?= $role['role_id'] ?>"><?= $role['role_name'] ?></option>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-white" data-bs-dismiss="modal">Volver</button>
+                            <input class="btn btn-primary" type="submit" value="Modificar">
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    <?php endforeach; ?>
 
 
 
