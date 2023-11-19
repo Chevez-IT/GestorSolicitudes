@@ -174,6 +174,7 @@
     </main>
 
 
+    <!-- Modal crear cuenta -->
     <div class="modal fade" id="createAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -233,10 +234,7 @@
         </div>
     </div>
 
-
-
-
-
+    <!-- Modal detalles cuenta -->
     <?php foreach ($accounts as $account) : ?>
         <div class="modal fade" id="detailAccountModal-<?= $account['account_id'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -286,6 +284,7 @@
 
     <?php endforeach; ?>
 
+    <!-- Modal editar cuenta -->
     <?php foreach ($accounts as $account) : ?>
         <div class="modal fade" id="editAccountModal-<?= $account['account_id'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">

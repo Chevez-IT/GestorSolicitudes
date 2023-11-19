@@ -147,25 +147,34 @@ class AccountController
                 1
             );
 
-            $response_user = $this->userModel->createUser(
-                $user_id,
-                $account_id,
-                $user_names,
-                $user_surnames,
-                $user_address,
-                $user_phone,
-                $company_id,
-                $user_position,
-                $user_area,
-                $user_status,
-                1
-            );
+            $responseA = json_decode($response_account, true);
 
-            if ($response_user['status'] == true  && $response_account['status'] == true) {
-                $_POST = array();
-                $_SESSION['success'] = "Compañia agregada exitosamente";
-                header("Location: " . url("/companies"), true, 303);
+            if ($responseA['status'] == true) {
+                $response_user = $this->userModel->createUser(
+                    $user_id,
+                    $account_id,
+                    $user_names,
+                    $user_surnames,
+                    $user_address,
+                    $user_phone,
+                    $company_id,
+                    $user_position,
+                    $user_area,
+                    $user_status,
+                    1
+                );
+
+                $responseU = json_decode($response_user, true);
+                if ($responseU['status'] == true ) {
+                    $_POST = array();
+                    $_SESSION['success'] = "Cuenta agregada exitosamente";
+                    header("Location: " . url("/accounts"), true, 303);
+                }
+
+
             }
+
+            
         }
     }
 

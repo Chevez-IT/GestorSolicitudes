@@ -13,7 +13,7 @@ class User
 
     public function createUser($user_id, $account_id, $user_names, $user_surnames, $user_address, $user_phone, $company_id, $user_position, $user_area, $user_status)
     {
-        $stmt = $this->db->prepare("CALL CreateUser(:user_id, :account_id, :user_names :user_surnames, :user_address, :user_phone, :company_id, :user_position, :user_area, :user_status)");
+        $stmt = $this->db->prepare("CALL CreateUser(:user_id, :account_id, :user_names, :user_surnames, :user_address, :user_phone, :company_id, :user_position, :user_area, :user_status)");
         $stmt->bindParam(':user_id', $user_id);
         $stmt->bindParam(':account_id', $account_id);
         $stmt->bindParam(':user_names', $user_names);

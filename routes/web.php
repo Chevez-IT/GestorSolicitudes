@@ -26,10 +26,11 @@
     Route::post('/role/update/status','RoleController@updateRoleStatus');
     Route::post('/role/update/permissions','RoleController@updateRolePermissions');
 
-    //User - Account routes
+    //User routes
     Route::get('/users', 'UserController@index');
+    Route::get('/users/create', 'UserController@createUser');
 
-    
+    //Account routes
     Route::get('/accounts', 'AccountController@index');
     Route::get('/accounts/create', 'AccountController@createAccount');
     Route::post('/accounts/update/status', 'AccountController@updateAccountStatus');
