@@ -12,10 +12,6 @@
     Route::post("/profile/update/user", 'ProfileController@updateUser');
     Route::get("/home", 'DashboardController@index');
 
-  // vista al dashboard
-
-    //Employes routes
-
 
 
 
@@ -23,9 +19,15 @@
     Route::get('/companies', 'CompanyController@index');
     Route::post('/company/create', 'CompanyController@createCompany');
     Route::post('/company/update/status', 'CompanyController@updateCompanyStatus');
+
+
+
     
     //Authenticate routes
     Route::post('/user/auth', 'AuthenticateController@user_auth');
+
+
+
 
     //Roles routes
     Route::get('/roles','RoleController@index');
@@ -33,11 +35,17 @@
     Route::post('/role/update/status','RoleController@updateRoleStatus');
     Route::post('/role/update/permissions','RoleController@updateRolePermissions');
 
+
+
+
     //User routes
     Route::get('/users', 'UserController@index');
     Route::get('/users/create', 'UserController@createUser');
     Route::post('/users/update/status', 'UserController@updateUserStatus');
     Route::post('/users/update/user', 'UserController@updateUser');
+
+
+
 
     //Account routes
     Route::get('/accounts', 'AccountController@index');
