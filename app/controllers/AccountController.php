@@ -21,6 +21,7 @@ class AccountController
 
     public function __construct()
     {
+        session_start();
         $db = new Database();
         $db->connect();
         $this->accountModel = new Account($db->getConnection());
@@ -166,8 +167,12 @@ class AccountController
 
                 $responseU = json_decode($response_user, true);
                 if ($responseU['status'] == true ) {
+                    $mail_content = $this->buildMailContent($user_names." ".$user_surnames, $account_name, $account_email, $password);
+                    $sendCredentials = $this->tools->sendEmail("Credenciales - FGK", $account_email, $mail_content);
                     $_POST = array();
-                    $_SESSION['success'] = "Cuenta agregada exitosamente";
+                    $_SESSION['alert']  = [
+                        'success' => "Cuenta creada exitosamente"
+                    ];
                     header("Location: " . url("/accounts"), true, 303);
                 }
 
@@ -191,5 +196,28 @@ class AccountController
         }
 
         return $cadenaAleatoria;
+    }
+
+    function buildMailContent($user_fullname, $user_name, $user_email, $user_password) {
+        $mail_content = "
+            <html>
+            <head>
+                <title>Bienvenido al gestor de solicitudes de FGK</title>
+            </head>
+            <body>
+                <p>Hola $user_fullname,</p>
+                <p>Te damos la bienvenida a nuestro sistema. A continuación, encontrarás la información de tu cuenta:</p>
+                <ul>
+                    <li><strong>Usuario:</strong> $user_name</li>
+                    <li><strong>Correo:</strong> $user_email</li>
+                    <li><strong>Contraseña:</strong> $user_password</li>
+                </ul>
+                <p>Por razones de seguridad, te recomendamos cambiar tu contraseña una vez que inicies sesión por primera vez.</p>
+                <p>¡Gracias por unirte a nosotros!</p>
+            </body>
+            </html>
+        ";
+    
+        return $mail_content;
     }
 }

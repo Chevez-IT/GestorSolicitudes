@@ -28,7 +28,7 @@
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/0fc218370a.js" crossorigin="anonymous"></script>
   <!-- CSS Files -->
-  <link id="pagestyle" href="<?= assets('css/corporate-ui-dashboard.css?v=1.0.0'); ?>" rel="stylesheet" />
+  <link id="pagestyle" href="<?= assets('css/corporate-ui-dashboard.css'); ?>" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>

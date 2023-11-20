@@ -82,4 +82,32 @@ class Account
             return json_encode(['status' => false, 'message' => 'Error al actualizar']);
         }
     }
+
+    public function updateAccountPassword($account_id, $new_account_password){
+        $stmt = $this->db->prepare("CALL UpdateAccountPassword(:account_id, :new_account_password)");
+        $stmt->bindParam(':account_id', $account_id);
+        $stmt->bindParam(':new_account_password', $new_account_password);
+
+        $result = $stmt->execute();
+
+        if ($result) {
+            return json_encode(['status' => true, 'message' => 'Actualizado exitosamente']);
+        } else {
+            return json_encode(['status' => false, 'message' => 'Error al actualizar']);
+        }
+    }
+
+    public function selectAccountPasswordByID($accountID)
+    {
+        $stmt = $this->db->prepare("CALL SelectAccountPasswordByID(:accountID)");
+        $stmt->bindParam(':accountID', $accountID);
+        $result = $stmt->execute();
+
+        if ($result) {
+            return $stmt->fetch(\PDO::FETCH_ASSOC);
+        } else {
+            return ['status' => false, 'message' => 'Cuenta no encontrada'];
+        }
+    }
+
 }

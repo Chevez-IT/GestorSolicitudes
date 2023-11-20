@@ -4,6 +4,13 @@
     Route::get('/', function () {
         return view("index");
     });
+    Route::get("/profile", 'ProfileController@index');
+    Route::get("/profile/password/new", 'ProfileController@passwordNew');
+    Route::post("/profile/update/status", 'ProfileController@updateStatus');
+    Route::post("/profile/update/password", 'ProfileController@updatePassword');
+    Route::post("/profile/update/account", 'ProfileController@updateAccount');
+    Route::post("/profile/update/user", 'ProfileController@updateUser');
+    Route::get("/home", 'DashboardController@index');
 
   // vista al dashboard
 
@@ -29,6 +36,8 @@
     //User routes
     Route::get('/users', 'UserController@index');
     Route::get('/users/create', 'UserController@createUser');
+    Route::post('/users/update/status', 'UserController@updateUserStatus');
+    Route::post('/users/update/user', 'UserController@updateUser');
 
     //Account routes
     Route::get('/accounts', 'AccountController@index');

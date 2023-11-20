@@ -1,6 +1,8 @@
 <?php
 //Controladores y Modelos
 
+require_once "./app/controllers/ProfileController.php";
+
 
 //Company and CompanyController
 require_once "./app/controllers/CompanyController.php";

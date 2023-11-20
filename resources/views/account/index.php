@@ -176,7 +176,7 @@
 
     <!-- Modal crear cuenta -->
     <div class="modal fade" id="createAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <form method="POST" action="accounts/create">
                     <div class="modal-header">
@@ -186,48 +186,76 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="account-name" class="col-form-label">Nombres:</label>
-                            <input type="text" class="form-control" type="text" id="user_names" name="user_names" required>
-                            <label for="account-name" class="col-form-label">Apellidos:</label>
-                            <input type="text" class="form-control" type="text" id="user_surnames" name="user_surnames" required>
+                        <div class="row">
+                            <div class="col">
+                                <label for="account-name" class="col-form-label">Nombres:</label>
+                                <input type="text" class="form-control" type="text" id="user_names" name="user_names" required>
+                            </div>
+                            <div class="col">
+                                <label for="account-name" class="col-form-label">Apellidos:</label>
+                                <input type="text" class="form-control" type="text" id="user_surnames" name="user_surnames" required>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="account-name" class="col-form-label">Correo:</label>
-                            <input type="text" class="form-control" type="text" id="account_email" name="account_email" required>
-                            <label for="account-name" class="col-form-label">Telefono:</label>
-                            <input type="text" class="form-control" type="text" id="user_phone" name="user_phone" required>
+
+                        <br>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="account-name" class="col-form-label">Correo:</label>
+                                <input type="text" class="form-control" type="text" id="account_email" name="account_email" required>
+                            </div>
+                            <div class="col">
+                                <label for="account-name" class="col-form-label">Telefono:</label>
+                                <input type="text" class="form-control" type="text" id="user_phone" name="user_phone" required>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">Direccion:</label>
-                            <textarea class="form-control" id="user_address" name="user_address"></textarea>
+
+                        <br>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="message-text" class="col-form-label">Direccion:</label>
+                                <textarea class="form-control" id="user_address" name="user_address"></textarea>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <div class="form-group">
-                                <label for="exampleFormControlSelect1">Compañia</label>
+
+                        <br>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="company_id" class="col-form-label">Compañia</label>
                                 <select class="form-control" id="company_id" name="company_id" required>
                                     <?php foreach ($companies as $company) : ?>
                                         <option selected value="<?= $company['company_id'] ?>"><?= $company['company_name'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            <label for="account-name" class="col-form-label">Posicion:</label>
-                            <input type="text" class="form-control" type="text" id="user_position" name="user_position" required>
-                            <label for="account-name" class="col-form-label">Area:</label>
-                            <input type="text" class="form-control" type="text" id="user_area" name="user_area" required>
+                            <div class="col">
+                                <label for="role_id" class="col-form-label">Rol:</label>
+                                <select class="form-control" id="role_id" name="role_id" required>
+                                    <?php foreach ($roles as $role) : ?>
+                                        <option selected value="<?= $role['role_id'] ?>"><?= $role['role_name'] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Rol:</label>
-                            <select class="form-control" id="role_id" name="role_id" required>
-                                <?php foreach ($roles as $role) : ?>
-                                    <option selected value="<?= $role['role_id'] ?>"><?= $role['role_name'] ?></option>
-                                <?php endforeach; ?>
-                            </select>
+
+                        <br>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="account-name" class="col-form-label">Posicion:</label>
+                                <input type="text" class="form-control" type="text" id="user_position" name="user_position" required>
+                            </div>
+                            <div class="col">
+                                <label for="account-name" class="col-form-label">Area:</label>
+                                <input type="text" class="form-control" type="text" id="user_area" name="user_area" required>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-dark">Save changes</button>
+                        <button type="button" class="btn btn-white" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-dark">Agregar</button>
                     </div>
                 </form>
             </div>
@@ -237,7 +265,7 @@
     <!-- Modal detalles cuenta -->
     <?php foreach ($accounts as $account) : ?>
         <div class="modal fade" id="detailAccountModal-<?= $account['account_id'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Cuenta: <?= $account['account_id'] ?></h5>
@@ -246,33 +274,45 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="account-name" class="col-form-label">Nombre asociado:</label>
-                            <input type="text" class="form-control" disabled type="text" id="account_name" name="account-name" value="<?= $account['account_name'] ?>">
+                        <div class="row">
+                            <div class="col">
+                                <label for="account-name" class="col-form-label">Nombre asociado:</label>
+                                <input type="text" class="form-control" disabled type="text" id="account_name" name="account-name" value="<?= $account['account_name'] ?>">
+                            </div>
+                            <div class="col">
+                                <label for="account-name" class="col-form-label">Correo asociado:</label>
+                                <input type="text" class="form-control" disabled type="text" id="account_email" name="account_email" value="<?= $account['account_email'] ?>">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="account-name" class="col-form-label">Correo asociado:</label>
-                            <input type="text" class="form-control" disabled type="text" id="account_email" name="account_email" value="<?= $account['account_email'] ?>">
+
+                        <br>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="role_name" class="col-form-label">Rol asociado:</label>
+                                <input type="text" class="form-control" disabled type="text" id="role_name" name="role_name" value="<?= $account['role_name'] ?>">
+                            </div>
+                            <div class="col">
+                                <label for="account_status" class="col-form-label">Estado actual:</label>
+                                <input type="text" class="form-control" disabled type="text" id="account_status" name="account_status" value="<?= $account['account_status'] ?>">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="account-name" class="col-form-label">Rol asociado:</label>
-                            <input type="text" class="form-control" disabled type="text" id="role_name" name="role_name" value="<?= $account['role_name'] ?>">
-                        </div>
-                        <div class="form-group">
-                            <label for="account-name" class="col-form-label">Estado actual:</label>
-                            <input type="text" class="form-control" disabled type="text" id="account-status" name="account-status" value="<?= $account['account_status'] ?>">
-                        </div>
-                        <div class="form-group">
-                            <label for="account-name" class="col-form-label">Fecha de creacion:</label>
-                            <input type="text" class="form-control" disabled type="text" id="account-creation" name="account-creation" value="<?= $account['account_creation'] ?>">
-                        </div>
-                        <div class="form-group">
-                            <label for="account-name" class="col-form-label">Ultima modificacion:</label>
-                            <?php if (empty($account['account_modification'])) : ?>
-                                <input type="text" class="form-control" disabled type="text" id="account-creation" name="account-creation" value="No ha sido modificado">
-                            <?php else : ?>
-                                <input type="text" class="form-control" disabled type="text" id="account-creation" name="account-creation" value="<?= $account['account_modification'] ?>">
-                            <?php endif; ?>
+
+                        <br>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="account-name" class="col-form-label">Fecha de creacion:</label>
+                                <input type="text" class="form-control" disabled type="text" id="account-creation" name="account-creation" value="<?= $account['account_creation'] ?>">
+                            </div>
+                            <div class="col">
+                                <label for="account-name" class="col-form-label">Ultima modificacion:</label>
+                                <?php if (empty($account['account_modification'])) : ?>
+                                    <input type="text" class="form-control" disabled type="text" id="account-creation" name="account-creation" value="No ha sido modificado">
+                                <?php else : ?>
+                                    <input type="text" class="form-control" disabled type="text" id="account-creation" name="account-creation" value="<?= $account['account_modification'] ?>">
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -287,9 +327,9 @@
     <!-- Modal editar cuenta -->
     <?php foreach ($accounts as $account) : ?>
         <div class="modal fade" id="editAccountModal-<?= $account['account_id'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <form action="<?= url("/accounts/update/account") ?>" method="POST">
-                    <div class="modal-content">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <form action="<?= url("/accounts/update/account") ?>" method="POST">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Cuenta: <?= $account['account_id'] ?></h5>
                             <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
@@ -323,30 +363,24 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-white" data-bs-dismiss="modal">Volver</button>
-                            <input class="btn btn-primary" type="submit" value="Modificar">
+                            <button type="submit" class="btn btn-dark">Actualizar</button>
                         </div>
-                    </div>
-                </form>
-
+                    </form>
+                </div>
             </div>
         </div>
-
     <?php endforeach; ?>
 
 
 
     <script>
-        // Verificar si hay un mensaje de éxito en la sesión
-        <?php if (isset($_SESSION['success'])) : ?>
-            // Mostrar SweetAlert2 con el mensaje
+        <?php if (isset($_SESSION['alert']['success'])) : ?>
             Swal.fire({
                 icon: 'success',
                 title: 'Éxito',
-                text: '<?= $_SESSION['success'] ?>',
+                text: '<?= $_SESSION['alert']['success'] ?>',
             });
-
-            // Eliminar la variable de sesión
-            <?php unset($_SESSION['success']); ?>
+            <?php unset($_SESSION['alert']['success']); ?>
         <?php endif; ?>
     </script>
 
