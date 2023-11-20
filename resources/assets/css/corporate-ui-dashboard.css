@@ -21150,26 +21150,8 @@ fieldset:disabled .btn {
     content: "\f105";
   }
 
-  .dropdown.dropdown-hover .dropdown-menu,
-  .dropdown .dropdown-menu {
-    display: block;
-    opacity: 0;
-    top: 0;
-    transform-origin: 50% 0;
-    pointer-events: none;
-    transform: perspective(999px) rotateX(-10deg) translateZ(0) translate3d(0px, 37px, 0px) !important;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    will-change: transform, box-shadow;
-  }
 
-  .dropdown.dropdown-hover:hover>.dropdown-menu,
-  .dropdown .dropdown-menu.show {
-    opacity: 1;
-    pointer-events: auto;
-    visibility: visible;
-    transform: perspective(999px) rotateX(0deg) translateZ(0) translate3d(0, 37px, 5px) !important;
-  }
+
 
   .dropdown.dropdown-hover:hover>.dropdown-menu:before,
   .dropdown .dropdown-menu.show:before {
@@ -21197,7 +21179,7 @@ fieldset:disabled .btn {
     left: 28px;
     right: auto;
     font-size: 22px;
-    color: #fff;
+    color: var(--bs-dark);
     transition: top 0.35s ease;
   }
 

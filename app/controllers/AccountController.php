@@ -1,14 +1,13 @@
 <?php
 
 use Core\Database;
-use Model\User;
+use Model\Account;
 use Model\Role;
 use Model\Company;
-use Model\Account;
+use Model\User;
 use Core\Tools;
 
-
-class UserController
+class AccountController
 {
     private $tools;
     private $accountModel;
@@ -16,9 +15,8 @@ class UserController
     private $companyModel;
     private $userModel;
 
-
     const ERROR_VIEW = 'error.404';
-    const INDEX_VIEW = 'user.index';
+    const INDEX_VIEW = 'account.index';
     const PAGE_TITLE = "FGK - MKT & COM";
 
     public function __construct()
@@ -36,21 +34,62 @@ class UserController
     public function index()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            $users = $this->userModel->getUsers();
+            $accounts = $this->accountModel->getAccounts();
             $roles = $this->roleModel->getRoles();
             $companies = $this->companyModel->getCompanies();
-            return view(self::INDEX_VIEW, ["pageTitle" => self::PAGE_TITLE, "users" => $users, "roles" => $roles, "companies" => $companies]);
+            return view(self::INDEX_VIEW, ["pageTitle" => self::PAGE_TITLE, "accounts" => $accounts, "roles" => $roles, "companies" => $companies]);
             exit();
         } else {
             return view(self::ERROR_VIEW, ["pageTitle" => self::PAGE_TITLE]);
         }
     }
 
-
-    public function createUser()
+    public function updateAccountStatus()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            
+            $account_id = $this->tools->sanitize($_POST['account-id']);
+            $account_status = $this->tools->sanitize($_POST['account-status']);
+            $response = $this->accountModel->updateAccountStatus($account_id, $account_status);
+
+            $response_data = json_decode($response, true);
+
+            if ($response_data['status'] == true) {
+                $_SESSION['success'] = "Estado de la cuenta actualizado exitosamente";
+                header("Location: " . url("/accounts"), true, 303);
+            } else {
+                // Manejar el error, posiblemente redirigir a una página de error
+                return view(self::ERROR_VIEW, ["pageTitle" => self::PAGE_TITLE]);
+            }
+        } else {
+            return view(self::ERROR_VIEW, ["pageTitle" => self::PAGE_TITLE]);
+        }
+    }
+
+    public function updateAccount()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $account_id = $this->tools->sanitize($_POST['new-account-id']);
+            $account_name = $this->tools->sanitize($_POST['new-account-name']);
+            $account_email = $this->tools->sanitize($_POST['new-account-email']);
+            $account_role = $this->tools->sanitize($_POST['new-role-id']);
+            $response = $this->accountModel->updateAccount($account_id, $account_name, $account_email, $account_role);
+            $response_data = json_decode($response, true);
+
+            if ($response_data['status'] == true) {
+                $_SESSION['success'] = "Cuenta actualizada exitosamente";
+                header("Location: " . url("/accounts"), true, 303);
+            } else {
+                // Manejar el error, posiblemente redirigir a una página de error
+                return view(self::ERROR_VIEW, ["pageTitle" => self::PAGE_TITLE]);
+            }
+        } else {
+            return view(self::ERROR_VIEW, ["pageTitle" => self::PAGE_TITLE]);
+        }
+    }
+
+    public function createAccount()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $user_names = $this->tools->sanitize($_POST['user_names']);
             $user_surnames = $this->tools->sanitize($_POST['user_surnames']);
             $account_email = $this->tools->sanitize($_POST['account_email']);
@@ -127,109 +166,39 @@ class UserController
                 );
 
                 $responseU = json_decode($response_user, true);
-                if ($responseU['status'] == true) {
+                if ($responseU['status'] == true ) {
                     $mail_content = $this->buildMailContent($user_names." ".$user_surnames, $account_name, $account_email, $password);
                     $sendCredentials = $this->tools->sendEmail("Credenciales - FGK", $account_email, $mail_content);
                     $_POST = array();
                     $_SESSION['alert']  = [
                         'success' => "Cuenta creada exitosamente"
                     ];
-                    header("Location: " . url("/users"), true, 303);
+                    header("Location: " . url("/accounts"), true, 303);
                 }
+
+
             }
+
+            
         }
     }
 
-    public function updateUserStatus()
+    public function passwordRandom($longitud)
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $user_id = $this->tools->sanitize($_POST['user_id']);
-            $user_status = $this->tools->sanitize($_POST['user_status']);
-            $response = $this->userModel->updateUserStatus($user_id, $user_status);
+        $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-_';
 
-            $response_data = json_decode($response, true);
+        $cadenaAleatoria = '';
+        $maxCaracteres = strlen($caracteres) - 1;
 
-            if ($response_data['status'] == true) {
-                $_SESSION['alert']  = [
-                    'success' => "Estado del usuario actualizado exitosamente"
-                ];
-                header("Location: " . url("/users"), true, 303);
-            } else {
-                return view(self::ERROR_VIEW, ["pageTitle" => self::PAGE_TITLE]);
-            }
-        } else {
-            return view(self::ERROR_VIEW, ["pageTitle" => self::PAGE_TITLE]);
+        for ($i = 0; $i < $longitud; $i++) {
+            $indiceAleatorio = rand(0, $maxCaracteres);
+            $cadenaAleatoria .= $caracteres[$indiceAleatorio];
         }
+
+        return $cadenaAleatoria;
     }
 
-    public function updateUser()
-    {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $user_id = $this->tools->sanitize($_POST['new_user_id']);
-            $user_names = $this->tools->sanitize($_POST['new_user_names']);
-            $user_surnames = $this->tools->sanitize($_POST['new_user_surnames']);
-            $user_phone = $this->tools->sanitize($_POST['new_user_phone']);
-            $user_address = $this->tools->sanitize($_POST['new_user_address']);
-            $company_id = $this->tools->sanitize($_POST['new_company_id']);
-            $user_position = $this->tools->sanitize($_POST['new_user_position']);
-            $user_area = $this->tools->sanitize($_POST['new_user_area']);
-
-            $fieldsToValidate = [
-                'new_user_id' => $user_id,
-                'new_user_names' => $user_names,
-                'new_user_surnames' => $user_surnames,
-                'new_user_phone' => $user_phone,
-                'new_user_address' => $user_address,
-                'new_company_id' => $company_id,
-                'new_user_position' => $user_position,
-                'new_user_area' => $user_area
-            ];
-
-            $errors = $this->tools->validateFields($fieldsToValidate);
-
-            if (!empty($errors)) {
-                $data = $fieldsToValidate;
-                $data['error'] = [];
-                foreach ($errors as $field => $error) {
-                    $data['error'][$field] = ['message' => $error];
-                }
-                $data['pageTitle'] = self::PAGE_TITLE;
-                return view(self::INDEX_VIEW, $data);
-            }
-
-            $response = $this->userModel->updateUser($user_id, $user_names, $user_surnames, $user_address, $user_phone, $company_id, $user_position, $user_area);
-            $response_data = json_decode($response, true);
-
-            if ($response_data['status'] == true) {
-                    $_POST = array();
-                    $_SESSION['alert']  = [
-                        'success' => "Usuario actualizado exitosamente"
-                    ];
-                    header("Location: " . url("/users"), true, 303);
-            } else {
-                // Manejar el error, posiblemente redirigir a una página de error
-                return view(self::ERROR_VIEW, ["pageTitle" => self::PAGE_TITLE]);
-            }
-        } else {
-            return view(self::ERROR_VIEW, ["pageTitle" => self::PAGE_TITLE]);
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //Funciones adicionales
-    function buildMailContent($user_fullname, $user_name, $user_email, $user_password) 
-    {
+    function buildMailContent($user_fullname, $user_name, $user_email, $user_password) {
         $mail_content = "
             <html>
             <head>
@@ -250,20 +219,5 @@ class UserController
         ";
     
         return $mail_content;
-    }
-
-    public function passwordRandom($longitud)
-    {
-        $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-_';
-
-        $cadenaAleatoria = '';
-        $maxCaracteres = strlen($caracteres) - 1;
-
-        for ($i = 0; $i < $longitud; $i++) {
-            $indiceAleatorio = rand(0, $maxCaracteres);
-            $cadenaAleatoria .= $caracteres[$indiceAleatorio];
-        }
-
-        return $cadenaAleatoria;
     }
 }
