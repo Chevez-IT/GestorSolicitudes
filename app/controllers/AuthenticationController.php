@@ -10,7 +10,7 @@ class AuthenticateController
     private $authModel;
     private $tools;
 
-    const DASHBOARD_VIEW = 'dashboard.index';
+    const DASHBOARD_VIEW = 'company.index';
     const CREATE_VIEW_LOGIN = 'index';
 
     public function __construct()

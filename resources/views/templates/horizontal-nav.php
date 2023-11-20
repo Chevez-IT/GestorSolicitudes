@@ -26,9 +26,16 @@
           </a>
         </li>
         <li class="nav-item ps-2 d-flex align-items-center">
-          <a href="javascript:;" class="nav-link text-body p-0">
-            <img src="https://api.lorem.space/image/face?w=150&h=150" class="avatar avatar-sm" alt="avatar" />
-          </a>
+          <div class=" dropdown">
+            <a href="javascript:;" class="nav-link text-body p-0" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
+              <img src="https://api.lorem.space/image/face?w=150&h=150" class="avatar avatar-sm" alt="avatar" />
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start dropdown-menu-dark bg-slate-900" aria-labelledby="navbarDropdownMenuLink2">
+              <li><a class="dropdown-item" href="<?= url('/profile') ?>">Mi perfil</a></li>
+              <li><a class="dropdown-item" href="<?= url('/profile/password/new') ?>">Cambiar contraseña</a></li>
+              <li><a class="dropdown-item" href="#">Cerrar Sesion</a></li>
+            </ul>
+          </div>
         </li>
       </ul>
     </div>
