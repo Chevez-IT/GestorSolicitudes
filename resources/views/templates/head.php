@@ -20,6 +20,7 @@
   <title>
     Solicitudes MKT & COM
   </title>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Noto+Sans:300,400,500,600,700,800|PT+Mono:300,400,500,600,700" rel="stylesheet" />
   <!-- Nucleo Icons -->
@@ -31,4 +32,5 @@
   <link id="pagestyle" href="<?= assets('css/corporate-ui-dashboard.css'); ?>" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>

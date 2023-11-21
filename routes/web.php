@@ -53,3 +53,11 @@
     Route::post('/accounts/update/status', 'AccountController@updateAccountStatus');
     Route::post('/accounts/update/account', 'AccountController@updateAccount');
     
+
+
+
+    //Request routes
+    Route::get('/requests', 'RequestController@index');
+    Route::get('/requests/create', 'RequestController@createRequest');
+    Route::post('/request/update/employee', 'RequestController@updateRequestEmployee');
+    Route::post('/requests/update/status', 'RequestController@updateRequestStatus');
