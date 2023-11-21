@@ -24,4 +24,8 @@ require_once "./app/controllers/UserController.php";
 require_once "./app/models/Account.php";
 require_once "./app/controllers/AccountController.php";
 
+//Request and RequestController
+require_once "./app/models/Request.php";
+require_once "./app/controllers/RequestController.php";
+
 
